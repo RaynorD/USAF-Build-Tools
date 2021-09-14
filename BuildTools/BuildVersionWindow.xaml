@@ -16,8 +16,8 @@
 			<Setter Property="Foreground" Value="#fff" />
 		</Style>
 		<Style TargetType="{x:Type TextBox}">
-			<Setter Property="Margin" Value="3" />
-			<Setter Property="Width" Value="30" />
+			<Setter Property="Margin" Value="5" />
+			<Setter Property="Width" Value="60" />
 			<Setter Property="HorizontalAlignment" Value="Left" />
 			<Setter Property="Foreground" Value="#fff" />
 			<Setter Property="Background" Value="#222" />
@@ -25,13 +25,21 @@
 		<Style TargetType="{x:Type CheckBox}">
 			<Setter Property="Margin" Value="3" />
 		</Style>
-		<Style TargetType="{x:Type Button}">
+		<Style TargetType="{x:Type Button}" x:Key="AllButton">
+			<Setter Property="Foreground" Value="#fff" />
+			<Setter Property="Background" Value="#444" />
+		</Style>
+		<Style TargetType="{x:Type Button}" x:Key="WindowButton" BasedOn="{StaticResource AllButton}">
 			<Setter Property="Width" Value="90" />
 			<Setter Property="Height" Value="30" />
 			<Setter Property="VerticalAlignment" Value="Center" />
 			<Setter Property="Margin" Value="5" />
-			<Setter Property="Foreground" Value="#fff" />
-			<Setter Property="Background" Value="#444" />
+		</Style>
+		<Style TargetType="{x:Type Button}" x:Key="IncrementButton" BasedOn="{StaticResource AllButton}">
+			<Setter Property="Width" Value="20" />
+			<Setter Property="Height" Value="18" />
+			<Setter Property="FontSize" Value="10" />
+			<Setter Property="VerticalAlignment" Value="Center" />
 		</Style>
 	</Window.Resources>
 
@@ -55,20 +63,35 @@
 		</Grid.RowDefinitions>
 
 		<TextBlock Grid.Row="0" Margin="3,3,10,3">Major Version</TextBlock>
-		<TextBox Grid.Row="0" Grid.Column="1" Name="txtBox_version_major" Margin="3,3,0,3" Width="30">0</TextBox>
+		<StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" >
+			<TextBox Name="txtBox_version_major"  PreviewTextInput="TxtBox_version_major_PreviewTextInput" IsReadOnly="True">0</TextBox>
+			<Button Name="Btn_VersionMajor_Decrement" Style="{StaticResource IncrementButton}" Content="&lt;"/>
+			<Button Name="Btn_VersionMajor_Increment" Style="{StaticResource IncrementButton}" Content="&gt;"/>
+		</StackPanel>
 
 		<TextBlock Grid.Row="1" Margin="3,3,10,3">Minor Version</TextBlock>
-		<TextBox Grid.Row="1" Grid.Column="1" Name="txtBox_version_minor" Margin="3,3,0,3" Width="30">0</TextBox>
-
-		<TextBlock Grid.Row="2" Margin="3,3,10,3">Build Version</TextBlock>
-		<TextBox Grid.Row="2" Grid.Column="1" Name="txtBox_version_build" Margin="3,3,0,3" Width="30">0</TextBox>
-
-		<TextBlock Grid.Row="3" Margin="3,3,10,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="Auto Increment"/>
-		<CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="2,0,2,0" IsChecked="True" Height="15"/>
-
-		<StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2" VerticalAlignment="Center">
-			<Button Name="BtnOk" Click="BtnOK_Click" IsDefault="True">OK</Button>
-			<Button Name="BtnCancel" Click="BtnCancel_Click" IsCancel="True">Cancel</Button>
+		<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" >
+			<TextBox Name="txtBox_version_minor" PreviewTextInput="TxtBox_version_minor_PreviewTextInput" IsReadOnly="True">0</TextBox>
+			<Button Name="Btn_VersionMinor_Decrement" Style="{StaticResource IncrementButton}" Content="&lt;"/>
+			<Button Name="Btn_VersionMinor_Increment" Style="{StaticResource IncrementButton}" Content="&gt;"/>
 		</StackPanel>
+		
+		<TextBlock Grid.Row="2" Margin="3,3,10,3">Build Version</TextBlock>
+		<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" >
+			<TextBox Name="txtBox_version_build" PreviewTextInput="TxtBox_version_build_PreviewTextInput" IsReadOnly="True">0</TextBox>
+			<Button Name="Btn_VersionBuild_Decrement" Style="{StaticResource IncrementButton}" Content="&lt;"/>
+			<Button Name="Btn_VersionBuild_Increment" Style="{StaticResource IncrementButton}" Content="&gt;"/>
+		</StackPanel>
+
+		<StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+			<TextBlock Text="Auto Increment Build Version" Width="Auto"/>
+			<CheckBox Name="checkbox_audoIncrement" IsChecked="True" Height="15"/>
+		</StackPanel>
+		
+		<StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2" VerticalAlignment="Center">
+			<Button Name="BtnOk" Style="{StaticResource WindowButton}" Click="BtnOK_Click" IsDefault="True">OK</Button>
+			<Button Name="BtnCancel" Style="{StaticResource WindowButton}" Click="BtnCancel_Click" IsCancel="True">Cancel</Button>
+		</StackPanel>
+		
 	</Grid>
 </Window>

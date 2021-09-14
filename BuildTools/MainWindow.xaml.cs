@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.Windows;
 
 namespace BuildTools
 {
@@ -7,9 +9,29 @@ namespace BuildTools
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private string dirAppData;
+
 		public MainWindow()
 		{
 			InitializeComponent();
+			ReadData();
+
+			dirAppData = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				System.Reflection.Assembly.GetEntryAssembly().GetName().Name
+			);
+
+			Directory.CreateDirectory(dirAppData);
+		}
+
+		private void ReadData()
+		{
+
+		}
+
+		public void writeData()
+		{
+
 		}
 
 		private void MenuItemVersion_Click(object sender, RoutedEventArgs e)

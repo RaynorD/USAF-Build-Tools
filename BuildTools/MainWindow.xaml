@@ -28,19 +28,19 @@
 			<Setter Property="Background" Value="#555" />
 			<Setter Property="Margin" Value="5" />
 		</Style>
-		<Style TargetType="{x:Type TreeView}">
+		<Style x:Key="TreeViewConsole" TargetType="{x:Type TreeView}">
 			<Setter Property="Margin" Value="0" />
 			<Setter Property="Background" Value="#292929" />
 			<Setter Property="Foreground" Value="#fff" />
 			<Setter Property="BorderBrush" Value="#00000000" />
 		</Style>
-		<Style TargetType="{x:Type TextBox}">
+		<Style x:Key="TextBoxConsole" TargetType="{x:Type TextBox}">
 			<Setter Property="Foreground" Value="#fff" />
-			<Setter Property="Background" Value="#333" />
+			<Setter Property="Background" Value="#9ff" />
 		</Style>
 		<Style x:Key="SideBarTextBlock" TargetType="{x:Type TextBlock}">
 			<Setter Property="Foreground" Value="#fff" />
-			<Setter Property="Background" Value="#333" />
+			<Setter Property="Background" Value="#111" />
 		</Style>
 		<Style x:Key="textBoxConsole" TargetType="{x:Type TextBox}">
 			<Setter Property="Foreground" Value="#eee" />
@@ -53,10 +53,12 @@
 			<Setter Property="Padding" Value="5" />
 			<Setter Property="Margin" Value="15,0,15,10" />
 		</Style>
-		<Style TargetType="{x:Type Menu}">
-			<Setter Property="Foreground" Value="#fff" />
-			<Setter Property="Background" Value="#555" />
-			<Setter Property="Padding" Value="3" />
+		<Style TargetType="{x:Type Menu}" x:Key="MenuTop">
+			<!--<Setter Property="Foreground" Value="#fff" />
+			<Setter Property="Background" Value="#555" />-->
+		</Style>
+		<Style TargetType="{x:Type MenuItem}" x:Key="MenuItemTop">
+			<Setter Property="Padding" Value="6,5,6,5" />
 		</Style>
 		<Style x:Key="VerticalSplitter" TargetType="{x:Type GridSplitter}">
 			<!--<Setter Property="Margin" Value="0,0,0,0" />-->
@@ -87,36 +89,38 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Menu Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="4">
-			<MenuItem Header="File">
-				<MenuItem Header="Scan for Folder Changes"/>
+		<Menu Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="4" Style="{StaticResource MenuTop}">
+			<MenuItem Header="File" Style="{StaticResource MenuItemTop}">
+				<MenuItem Header="Open Project Folder" Name="MenuItem_OpenProjectFolder"/>
 				<Separator />
-				<MenuItem Header="Exit" />
+				<MenuItem Header="Scan for Folder Changes" Name="MenuItem_ScanforFolderChanges"/>
+				<Separator />
+				<MenuItem Header="Exit" Name="MenuItem_Exit"/>
 			</MenuItem>
-			<MenuItem Header="Edit">
+			<MenuItem Header="Edit" Style="{StaticResource MenuItemTop}">
 				<MenuItem Header="Settings" />
 				<MenuItem Header="Options" />
 			</MenuItem>
 			<MenuItem Header="Options">
-				<MenuItem Header="Version" Name="menuItemVersion" Click="MenuItemVersion_Click"/>
+				<MenuItem Header="Version" Name="menuItemVersion" Click="MenuItemVersion_Click" />
 			</MenuItem>
-			<MenuItem Header="Build">
+			<MenuItem Header="Build" Style="{StaticResource MenuItemTop}">
 				<MenuItem Header="Dev" />
 				<MenuItem Header="Release" />
 			</MenuItem>
-			<MenuItem Header="Select">
+			<MenuItem Header="Select" Style="{StaticResource MenuItemTop}">
 				<MenuItem Header="All" />
 				<MenuItem Header="None" />
 				<MenuItem Header="Dev" />
 				<MenuItem Header="Release" />
 			</MenuItem>
-			<MenuItem Header="Help">
+			<MenuItem Header="Help" Style="{StaticResource MenuItemTop}">
 				<MenuItem Header="Usage" />
 				<MenuItem Header="About" />
 			</MenuItem>
 		</Menu>
 
-		<TreeView Name="treeView" Height="Auto" Grid.Row="1" Grid.Column="0" MinWidth="150" />
+		<TreeView Name="treeView" Height="Auto" Grid.Row="1" Grid.Column="0" Style="{StaticResource TreeViewConsole}" />
 
 		<GridSplitter 
 			Grid.Column="1" 
@@ -124,7 +128,7 @@
 			Style="{DynamicResource VerticalSplitter}"
 			/>
 
-		<TextBox Name="textConsole" Style="{StaticResource textBoxConsole}" Grid.Row="1" Grid.Column="2" MinWidth="150" />
+		<TextBox Name="textConsole" Style="{StaticResource textBoxConsole}" Grid.Row="1" Grid.Column="2" />
 
 		<StackPanel Name="Sidebar" Style="{StaticResource Sidebar}" Grid.Row="1" Grid.Column="3" MinWidth="150">
 			<TextBlock Style="{StaticResource SidebarTextBlock}">Builds</TextBlock>
