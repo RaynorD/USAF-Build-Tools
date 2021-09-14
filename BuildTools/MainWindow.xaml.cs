@@ -15,7 +15,7 @@ namespace BuildTools
 		private void MenuItemVersion_Click(object sender, RoutedEventArgs e)
 		{
 			BuildVersionWindow win = new();
-			win.Show();
+			win.ShowDialog();
 		}
 	}
 }

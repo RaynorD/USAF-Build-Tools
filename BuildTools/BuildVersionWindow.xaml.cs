@@ -19,9 +19,23 @@ namespace BuildTools
 	/// </summary>
 	public partial class BuildVersionWindow : Window
 	{
+		public int versionMajor = 0;
+		public int versionMinor = 0;
+		public int versionBuild = 0;
+		public bool autoIncrement = true;
 		public BuildVersionWindow()
 		{
 			InitializeComponent();
+		}
+
+		private void BtnOK_Click(object sender, RoutedEventArgs e)
+		{
+			DialogResult = true;
+		}
+
+		private void BtnCancel_Click(object sender, RoutedEventArgs e)
+		{
+			DialogResult = false;
 		}
 	}
 }
