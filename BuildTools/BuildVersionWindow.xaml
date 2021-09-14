@@ -1,0 +1,74 @@
+﻿<Window x:Class="BuildTools.BuildVersionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BuildTools"
+        mc:Ignorable="d"
+        Title="Version" Height="188" Width="232" ResizeMode="NoResize" Background="#FF222222" Topmost="True">
+	<Window.Resources>
+		<Style TargetType="{x:Type Grid}">
+			<Setter Property="Background" Value="#222" />
+		</Style>
+		<Style TargetType="{x:Type TextBlock}">
+			<Setter Property="Margin" Value="3,3,10,3" />
+			<Setter Property="TextAlignment" Value="Right" />
+			<Setter Property="Foreground" Value="#fff" />
+		</Style>
+		<Style TargetType="{x:Type TextBox}">
+			<Setter Property="Margin" Value="3" />
+			<Setter Property="Width" Value="30" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="Foreground" Value="#fff" />
+			<Setter Property="Background" Value="#222" />
+		</Style>
+		<Style TargetType="{x:Type CheckBox}">
+			<Setter Property="Margin" Value="3" />
+		</Style>
+		<Style TargetType="{x:Type Button}">
+			<Setter Property="Width" Value="90" />
+			<Setter Property="Height" Value="30" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="Margin" Value="5" />
+			<Setter Property="Foreground" Value="#fff" />
+			<Setter Property="Background" Value="#444" />
+		</Style>
+	</Window.Resources>
+
+	<Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="1*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Row="0" Margin="3,3,10,3">Major Version</TextBlock>
+		<TextBox Grid.Row="0" Grid.Column="1" Name="txtBox_version_major" Margin="3,3,0,3" Width="30">0</TextBox>
+
+		<TextBlock Grid.Row="1" Margin="3,3,10,3">Minor Version</TextBlock>
+		<TextBox Grid.Row="1" Grid.Column="1" Name="txtBox_version_minor" Margin="3,3,0,3" Width="30">0</TextBox>
+
+		<TextBlock Grid.Row="2" Margin="3,3,10,3">Build Version</TextBlock>
+		<TextBox Grid.Row="2" Grid.Column="1" Name="txtBox_version_build" Margin="3,3,0,3" Width="30">0</TextBox>
+
+		<TextBlock Grid.Row="3" Margin="3,3,10,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="Auto Increment"/>
+		<CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="2,0,2,0" IsChecked="True" Height="15"/>
+
+		<StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2" VerticalAlignment="Center">
+			<Button>OK</Button>
+			<Button>Cancel</Button>
+		</StackPanel>
+	</Grid>
+</Window>
