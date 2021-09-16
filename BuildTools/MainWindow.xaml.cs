@@ -32,8 +32,7 @@ namespace BuildTools
 
 		public void WriteData()
 		{
-			XmlDocument xml = new XmlDocument();
-			xml.
+			
 		}
 
 		public void WriteVersionData()
