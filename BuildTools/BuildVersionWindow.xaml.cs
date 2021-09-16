@@ -21,16 +21,8 @@ namespace BuildTools
 	/// </summary>
 	public partial class BuildVersionWindow : Window
 	{
-		public int versionMajor = 0;
-		public int versionMinor = 0;
-		public int versionBuild = 0;
-		public bool autoIncrement = true;
-
-		private double versionMajorScrollValue = 0;
-		private double versionMinorScrollValue = 0;
-		private double versionBuildScrollValue = 0;
-
-		private static readonly Regex _regex = new("[0-9]");
+		private int versionMajor, versionMinor, versionBuild;
+		private bool autoIncrement = true;
 
 		public BuildVersionWindow()
 		{
@@ -40,27 +32,34 @@ namespace BuildTools
 		#region Helper Functions
 		private void ValidateVersionField(object sender, ref TextCompositionEventArgs e)
 		{
-			e.Handled = !_regex.IsMatch(e.Text);
+			TextBox txtBox = sender as TextBox;
+			e.Handled = int.TryParse(txtBox.Text, out _);
 		}
-
-		private void HandleScrollBar(ref object sender, ref ScrollEventArgs e, ref double value, ref TextBox txtBox)
+		private void EditVersionField(TextBox txtBox, bool inc)
 		{
-			if (e.NewValue > value)
+			if (int.TryParse(txtBox.Text, out int curVal))
 			{
-				txtBox.Text = txtBox.Text + 1;
+				if (inc)
+				{
+					txtBox.Text = (curVal + 1).ToString();
+				}
+				else
+				{
+					txtBox.Text = (curVal - 1).ToString();
+				}
 			}
-			else
-			{
-
-			}
-			Console.WriteLine(e.NewValue);
-			Console.WriteLine(value);
 		}
 		#endregion
 
 		#region Events
 		private void BtnOK_Click(object sender, RoutedEventArgs e)
 		{
+			int.TryParse(txtBox_version_major.Text, out versionMajor);
+			int.TryParse(txtBox_version_minor.Text, out versionMinor);
+			int.TryParse(txtBox_version_build.Text, out versionBuild);
+
+			autoIncrement = (bool)checkbox_autoIncrement.IsChecked;
+
 			DialogResult = true;
 		}
 
@@ -71,23 +70,49 @@ namespace BuildTools
 
 		private void TxtBox_version_major_PreviewTextInput(object sender, TextCompositionEventArgs e)
 		{
-			ValidateVersionField(sender, ref e);
+			//ValidateVersionField(sender, ref e);
 		}
 
 		private void TxtBox_version_minor_PreviewTextInput(object sender, TextCompositionEventArgs e)
 		{
-			ValidateVersionField(sender, ref e);
+			//ValidateVersionField(sender, ref e);
 		}
 
 		private void TxtBox_version_build_PreviewTextInput(object sender, TextCompositionEventArgs e)
 		{
-			ValidateVersionField(sender, ref e);
+			//ValidateVersionField(sender, ref e);
+		}
+		private void Btn_VersionMajor_Decrement_Click(object sender, RoutedEventArgs e)
+		{
+			EditVersionField(txtBox_version_major, false);
 		}
 
-		private void ScrollBar_Major_Scroll(object sender, ScrollEventArgs e)
+		private void Btn_VersionMajor_Increment_Click(object sender, RoutedEventArgs e)
 		{
-			HandleScrollBar(ref sender, ref e, ref versionMajorScrollValue, ref txtBox_version_build);
+			EditVersionField(txtBox_version_major, true);
+		}
+
+		private void Btn_VersionMinor_Decrement_Click(object sender, RoutedEventArgs e)
+		{
+			EditVersionField(txtBox_version_minor, false);
+		}
+
+		private void Btn_VersionMinor_Increment_Click(object sender, RoutedEventArgs e)
+		{
+			EditVersionField(txtBox_version_minor, true);
+		}
+
+		private void Btn_VersionBuild_Decrement_Click(object sender, RoutedEventArgs e)
+		{
+			EditVersionField(txtBox_version_build, false);
+		}
+
+		private void Btn_VersionBuild_Increment_Click(object sender, RoutedEventArgs e)
+		{
+			EditVersionField(txtBox_version_build, true);
 		}
 		#endregion
+
+
 	}
 }

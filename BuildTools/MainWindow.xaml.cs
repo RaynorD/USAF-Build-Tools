@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using System.Xml;
 
 namespace BuildTools
 {
@@ -26,10 +27,16 @@ namespace BuildTools
 
 		private void ReadData()
 		{
-
+			
 		}
 
-		public void writeData()
+		public void WriteData()
+		{
+			XmlDocument xml = new XmlDocument();
+			xml.
+		}
+
+		public void WriteVersionData()
 		{
 
 		}
