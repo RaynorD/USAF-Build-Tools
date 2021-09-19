@@ -16,12 +16,13 @@
 		<Style TargetType="{x:Type TextBlock}">
 			<Setter Property="Foreground" Value="#fff" />
 		</Style>
-		<Style x:Key="SidebarTextBlock" TargetType="{x:Type TextBlock}">
+		<Style x:Key="ButtonBarTextBlock" TargetType="{x:Type TextBlock}">
 			<Setter Property="Foreground" Value="#fff" />
 			<Setter Property="TextAlignment" Value="Center" />
-			<Setter Property="Margin" Value="5" />
+			<Setter Property="Margin" Value="5,5,0,5" />
+			<Setter Property="VerticalAlignment" Value="Center" />
 		</Style>
-		<Style x:Key="Sidebar" TargetType="{x:Type StackPanel}">
+		<Style x:Key="ButtonBar" TargetType="{x:Type StackPanel}">
 			<Setter Property="Background" Value="#222" />
 		</Style>
 		<Style TargetType="{x:Type Separator}">
@@ -38,10 +39,6 @@
 			<Setter Property="Foreground" Value="#fff" />
 			<Setter Property="Background" Value="#9ff" />
 		</Style>
-		<Style x:Key="SideBarTextBlock" TargetType="{x:Type TextBlock}">
-			<Setter Property="Foreground" Value="#fff" />
-			<Setter Property="Background" Value="#111" />
-		</Style>
 		<Style x:Key="textBoxConsole" TargetType="{x:Type TextBox}">
 			<Setter Property="Foreground" Value="#eee" />
 			<Setter Property="Background" Value="#111" />
@@ -50,8 +47,8 @@
 		<Style TargetType="{x:Type Button}">
 			<Setter Property="Foreground" Value="#fff" />
 			<Setter Property="Background" Value="#555" />
-			<Setter Property="Padding" Value="5" />
-			<Setter Property="Margin" Value="15,0,15,10" />
+			<Setter Property="Padding" Value="4,2,4,2" />
+			<Setter Property="Margin" Value="5,5,0,5" />
 		</Style>
 		<Style TargetType="{x:Type Menu}" x:Key="MenuTop">
 			<!--<Setter Property="Foreground" Value="#fff" />
@@ -76,6 +73,11 @@
 			<Setter Property="ShowsPreview" Value="True" />
 			<Setter Property="Height" Value="3" />
 		</Style>
+		<Style x:Key="ButtonBarVerticalSeparator" TargetType="{x:Type Border}" >
+			<Setter Property="Width" Value="0.5" />
+			<Setter Property="Background" Value="#999" />
+			<Setter Property="Margin" Value="5,5,0,5" />
+		</Style>
 	</Window.Resources>
 
 	<Grid>
@@ -83,58 +85,50 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Menu Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="4" Style="{StaticResource MenuTop}">
 			<MenuItem Header="File" Style="{StaticResource MenuItemTop}">
-				<MenuItem Header="Open Project Folder" Name="MenuItem_OpenProjectFolder"/>
+				<MenuItem Header="Open Project Folder" Name="MenuItem_OpenProjectFolder" Click="MenuItemClick"/>
 				<Separator />
-				<MenuItem Header="Scan for Folder Changes" Name="MenuItem_ScanforFolderChanges"/>
+				<MenuItem Header="Build Configuration">
+					<MenuItem Header="Save..." Name="MenuItem_SaveProjectFolderSetting" Click="MenuItemClick"/>
+					<MenuItem Header="Open..." Name="MenuItem_OpenProjectFolderSetting" Click="MenuItemClick"/>
+				</MenuItem>
 				<Separator />
-				<MenuItem Header="Exit" Name="MenuItem_Exit"/>
+				<MenuItem Header="Exit" Name="MenuItem_Exit" Click="MenuItemClick"/>
+			</MenuItem>
+			<MenuItem Header="Addons" Style="{StaticResource MenuItemTop}">
+				<MenuItem Header="Add Pack..." Name="MenuItem_AddPack" Click="MenuItemClick"/>
+				<MenuItem Header="Add PBO Folder..." Name="MenuItem_AddPboFolder"/>
 			</MenuItem>
 			<MenuItem Header="Edit" Style="{StaticResource MenuItemTop}">
-				<MenuItem Header="Settings" />
-				<MenuItem Header="Options" />
-			</MenuItem>
-			<MenuItem Header="Options">
-				<MenuItem Header="Version" Name="menuItemVersion" Click="MenuItemVersion_Click" />
-			</MenuItem>
-			<MenuItem Header="Build" Style="{StaticResource MenuItemTop}">
-				<MenuItem Header="Dev" />
-				<MenuItem Header="Release" />
-			</MenuItem>
-			<MenuItem Header="Select" Style="{StaticResource MenuItemTop}">
-				<MenuItem Header="All" />
-				<MenuItem Header="None" />
-				<MenuItem Header="Dev" />
-				<MenuItem Header="Release" />
+				<MenuItem Header="Version" Name="MenuItem_Version" Click="MenuItemVersion_Click" />
+				<MenuItem Header="Settings" Name="MenuItem_Settings"/>
 			</MenuItem>
 			<MenuItem Header="Help" Style="{StaticResource MenuItemTop}">
-				<MenuItem Header="Usage" />
-				<MenuItem Header="About" />
+				<MenuItem Header="Usage" Name="MenuItem_Usage"/>
+				<MenuItem Header="About" Name="MenuItem_About"/>
 			</MenuItem>
 		</Menu>
 
-		<TreeView Name="treeView" Height="Auto" Grid.Row="1" Grid.Column="0" Style="{StaticResource TreeViewConsole}" />
+		<TreeView Name="treeView" Height="Auto" Grid.Row="2" Grid.Column="0" Style="{StaticResource TreeViewConsole}" />
 
-		<GridSplitter 
-			Grid.Column="1" 
-			Grid.Row="1"
-			Style="{DynamicResource VerticalSplitter}"
-			/>
-
-		<TextBox Name="textConsole" Style="{StaticResource textBoxConsole}" Grid.Row="1" Grid.Column="2" />
-
-		<StackPanel Name="Sidebar" Style="{StaticResource Sidebar}" Grid.Row="1" Grid.Column="3" MinWidth="150">
-			<TextBlock Style="{StaticResource SidebarTextBlock}">Builds</TextBlock>
-			<Button Name="btnBuildDev">Run Dev Build</Button>
-			<Button Name="btnBuildRelease">Run Release Build</Button>
-			<Separator Height="10"/>
+		<StackPanel Name="ButtonBar" Orientation="Horizontal" Grid.ColumnSpan="1" Style="{StaticResource ButtonBar}" Grid.Row="1" Grid.Column="0">
+			<!--<TextBlock Style="{StaticResource ButtonBarTextBlock}">Build:</TextBlock>-->
+			<Button Name="btnBuildDev">Build _Dev (F1)</Button>
+			<Button Name="btnBuildRelease">Build _Release (F2)</Button>
+			<!--<Border Style="{StaticResource ButtonBarVerticalSeparator}"></Border>-->
 		</StackPanel>
+
+		<GridSplitter Width="5" Grid.Column="1" />
+
+		<TextBox Name="textConsole" Style="{StaticResource textBoxConsole}" Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" />
+
+		
 	</Grid>
 </Window>
