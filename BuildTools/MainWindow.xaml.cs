@@ -17,41 +17,43 @@ namespace BuildTools
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private string dirAppData;
+		private string appDataPath;
 
 		public MainWindow()
 		{
 			InitializeComponent();
-			ReadData();
 
-			dirAppData = Path.Combine(
+			appDataPath = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				System.Reflection.Assembly.GetEntryAssembly().GetName().Name
+				System.Reflection.Assembly.GetEntryAssembly().GetName().Name,
+				"data.xml"
 			);
 
-			Directory.CreateDirectory(dirAppData);
+			ReadData();
 
-			ModPack modPack1 = new(@"C:\Dev\USAF\TestModPack1", "USAF Fighters");
-			ModPack modPack2 = new(@"C:\Dev\USAF\TestModPack2", "USAF Bombers");
-			PboFolder pboFolder1 = new(@"C:\Dev\USAF\TestModPack1\TestPboFolder1", PboFolderState.debug);
-			PboFolder pboFolder2 = new(@"C:\Dev\USAF\TestModPack1\TestPboFolder2", PboFolderState.inactive);
-			PboFolder pboFolder3 = new(@"C:\Dev\USAF\TestModPack2\TestPboFolder1", PboFolderState.debug);
-			PboFolder pboFolder4 = new(@"C:\Dev\USAF\TestModPack2\TestPboFolder2", PboFolderState.release);
-			modPack1.AddPboFolder(pboFolder1);
-			modPack1.AddPboFolder(pboFolder2);
-			modPack2.AddPboFolder(pboFolder3);
-			modPack2.AddPboFolder(pboFolder4);
+			
 
-			SaveData saveData = new SaveData();
-			saveData.version[0] = 1;
-			saveData.version[1] = 2;
-			saveData.version[2] = 10;
-			saveData.version[3] = 137;
+			//Directory.CreateDirectory(dirAppData);
 
-			saveData.AddModpack(modPack1);
-			saveData.AddModpack(modPack2);
+			//ModPack modPack1 = new(@"C:\Dev\USAF\TestModPack1", "USAF Fighters");
+			//ModPack modPack2 = new(@"C:\Dev\USAF\TestModPack2", "USAF Bombers");
+			//PboFolder pboFolder1 = new(@"C:\Dev\USAF\TestModPack1\TestPboFolder1", PboFolderState.debug);
+			//PboFolder pboFolder2 = new(@"C:\Dev\USAF\TestModPack1\TestPboFolder2", PboFolderState.inactive);
+			//PboFolder pboFolder3 = new(@"C:\Dev\USAF\TestModPack2\TestPboFolder1", PboFolderState.debug);
+			//PboFolder pboFolder4 = new(@"C:\Dev\USAF\TestModPack2\TestPboFolder2", PboFolderState.release);
+			//modPack1.AddPboFolder(pboFolder1);
+			//modPack1.AddPboFolder(pboFolder2);
+			//modPack2.AddPboFolder(pboFolder3);
+			//modPack2.AddPboFolder(pboFolder4);
 
-			WriteData(saveData);
+			//SaveData saveData = new ();
+			//saveData.version = new VersionData(1, 2, 3, 4);
+
+			//saveData.AddModpack(modPack1);
+			//saveData.AddModpack(modPack2);
+
+			//WriteData(saveData);
+
 		}
 
 		private void ReadData()
@@ -66,21 +68,7 @@ namespace BuildTools
 			StringWriter sw = new StringWriter(sb);
 			aSerializer.Serialize(sw, saveData); // pass an instance of A
 			string xmlResult = sw.GetStringBuilder().ToString();
-
-			File.WriteAllText("xml.txt", xmlResult);
-
-			//// Insert code to set properties and fields of the object.  
-			//XmlSerializer mySerializer = new
-			//XmlSerializer(typeof(SaveData));
-			//// To write to a file, create a StreamWriter object.  
-			//StreamWriter myWriter = new StreamWriter("myFileName.xml");
-			//mySerializer.Serialize(myWriter, saveData);
-			//myWriter.Close();
-		}
-
-		public void WriteVersionData()
-		{
-
+			File.WriteAllText(appDataPath, xmlResult);
 		}
 
 		private void MenuItemVersion_Click(object sender, RoutedEventArgs e)
@@ -100,6 +88,7 @@ namespace BuildTools
 		public string _path;
 		[XmlElement("Name")]
 		public string _name;
+		[XmlArray("PboFolderList")]
 		[XmlArrayItem("PboFolder")]
 		public List<PboFolder> _pboFolders;
 
@@ -144,15 +133,15 @@ namespace BuildTools
 	[XmlRoot(ElementName = "SaveData")]
 	public class SaveData
 	{
-		[XmlArrayItem("Modpacks")]
+		[XmlArray("Modpacks")]
 		public List<ModPack> modPacks;
 		[XmlElement("Version")]
-		public int[] version;
+		public VersionData version;
 
 		public SaveData()
 		{
 			modPacks = new List<ModPack>();
-			version = new int[4];
+			
 		}
 		public void AddModpack(ModPack modpack)
 		{
@@ -161,6 +150,32 @@ namespace BuildTools
 		public void RemoveModpack(ModPack modpack)
 		{
 			modPacks.Remove(modpack);
+		}
+	}
+	public class VersionData
+	{
+		[XmlElement("Major")]
+		public int major;
+		[XmlElement("Minor")]
+		public int minor;
+		[XmlElement("Patch")]
+		public int patch;
+		[XmlElement("Build")]
+		public int build;
+		
+		public VersionData() { }
+
+		public VersionData(int majorInput, int minorInput, int patchInput, int buildInput)
+		{
+			major = majorInput;
+			minor = minorInput;
+			patch = patchInput;
+			build = buildInput;
+		}
+
+		public override string ToString()
+		{
+			return ("" + major + "." + minor + "." + patch + "." + build);
 		}
 	}
 }
