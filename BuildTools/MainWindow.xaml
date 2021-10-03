@@ -29,21 +29,77 @@
 			<Setter Property="Background" Value="#555" />
 			<Setter Property="Margin" Value="5" />
 		</Style>
-		<Style x:Key="TreeViewConsole" TargetType="{x:Type TreeView}">
+		<Style x:Key="TreeViewModPacks" TargetType="{x:Type TreeView}">
 			<Setter Property="Margin" Value="0" />
 			<Setter Property="Background" Value="#292929" />
 			<Setter Property="Foreground" Value="#fff" />
 			<Setter Property="BorderBrush" Value="#00000000" />
+			<Setter Property="BorderThickness" Value="0" />
 		</Style>
-		<Style x:Key="TextBoxConsole" TargetType="{x:Type TextBox}">
+		<Style TargetType="{x:Type TreeViewItem}">
 			<Setter Property="Foreground" Value="#fff" />
-			<Setter Property="Background" Value="#9ff" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="IsExpanded" Value="True" />
 		</Style>
 		<Style x:Key="textBoxConsole" TargetType="{x:Type TextBox}">
 			<Setter Property="Foreground" Value="#eee" />
 			<Setter Property="Background" Value="#111" />
 			<Setter Property="BorderBrush" Value="#00000000" />
+			<Setter Property="BorderThickness" Value="0" />
 		</Style>
+		<Style x:Key="textBlockStatus" TargetType="{x:Type TextBlock}">
+			<Setter Property="Foreground" Value="#bbb" />
+			<Setter Property="Background" Value="#333" />
+			<Setter Property="Padding" Value="5" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+		</Style>
+		<Style x:Key="textBlockTreeViewItem" TargetType="{x:Type TextBlock}">
+			<Setter Property="Foreground" Value="#fff" />
+			<Setter Property="Margin" Value="5,0,0,0" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="FontWeight" Value="Regular" />
+			<Setter Property="FontSize" Value="14" />
+		</Style>
+		
+		<!-- Dev/Release buttons -->
+		<Style x:Key="BorderTreeViewItemButton" TargetType="{x:Type Border}">
+			<Setter Property="Margin" Value="2" />
+			<Setter Property="Padding" Value="5,2,5,2" />
+		</Style>
+		<Style x:Key="BorderTreeViewItemButton_Dev_active" TargetType="{x:Type Border}" BasedOn="{StaticResource BorderTreeViewItemButton}">
+			<Setter Property="Background" Value="#7f7" />
+			<Setter Property="BorderBrush" Value="#7f7" />
+			<Setter Property="BorderThickness" Value="1" />
+		</Style>
+		<Style x:Key="TextBlockTreeViewItemButton_Dev_active" TargetType="{x:Type TextBlock}">
+			<Setter Property="Foreground" Value="Black" />
+		</Style>
+		<Style x:Key="BorderTreeViewItemButton_Dev_inactive" TargetType="{x:Type Border}" BasedOn="{StaticResource BorderTreeViewItemButton}">
+			<Setter Property="Background" Value="#333" />
+			<Setter Property="BorderBrush" Value="#7f7" />
+			<Setter Property="BorderThickness" Value="1" />
+		</Style>
+		<Style x:Key="TextBlockTreeViewItemButton_Dev_inactive" TargetType="{x:Type TextBlock}">
+			<Setter Property="Foreground" Value="#7f7" />
+		</Style>
+		<Style x:Key="BorderTreeViewItemButton_Release_active" TargetType="{x:Type Border}" BasedOn="{StaticResource BorderTreeViewItemButton}">
+			<Setter Property="Background" Value="#f77" />
+			<Setter Property="BorderBrush" Value="#f77" />
+			<Setter Property="BorderThickness" Value="1" />
+		</Style>
+		<Style x:Key="TextBlockTreeViewItemButton_Release_active" TargetType="{x:Type TextBlock}">
+			<Setter Property="Foreground" Value="Black" />
+		</Style>
+		<Style x:Key="BorderTreeViewItemButton_inactive" TargetType="{x:Type Border}" BasedOn="{StaticResource BorderTreeViewItemButton}">
+			<Setter Property="Background" Value="#333" />
+			<Setter Property="BorderBrush" Value="#777" />
+			<Setter Property="BorderThickness" Value="1" />
+		</Style>
+		<Style x:Key="TextBlockTreeViewItemButton_inactive" TargetType="{x:Type TextBlock}">
+			<Setter Property="Foreground" Value="#777" />
+		</Style>
+		
+		
 		<Style TargetType="{x:Type Button}">
 			<Setter Property="Foreground" Value="#fff" />
 			<Setter Property="Background" Value="#555" />
@@ -51,49 +107,60 @@
 			<Setter Property="Margin" Value="5,5,0,5" />
 		</Style>
 		<Style TargetType="{x:Type Menu}" x:Key="MenuTop">
-			<!--<Setter Property="Foreground" Value="#fff" />
-			<Setter Property="Background" Value="#555" />-->
+			<Setter Property="Foreground" Value="#fff" />
+			<Setter Property="Background" Value="#555" />
+			<Setter Property="Padding" Value="2" />
 		</Style>
 		<Style TargetType="{x:Type MenuItem}" x:Key="MenuItemTop">
 			<!--<Setter Property="Padding" Value="6,5,6,5" />-->
 		</Style>
-		<Style x:Key="VerticalSplitter" TargetType="{x:Type GridSplitter}">
-			<!--<Setter Property="Margin" Value="0,0,0,0" />-->
-			<Setter Property="HorizontalAlignment" Value="Center" />
-			<Setter Property="VerticalAlignment" Value="Stretch" />
-			<Setter Property="Background" Value="#222" />
-			<Setter Property="ShowsPreview" Value="True" />
-			<Setter Property="Width" Value="3" />
-		</Style>
-		<Style x:Key="HorizontalSplitter" TargetType="{x:Type GridSplitter}">
-			<!--<Setter Property="Margin" Value="0,0,0,0" />-->
-			<Setter Property="HorizontalAlignment" Value="Stretch" />
-			<Setter Property="VerticalAlignment" Value="Center" />
-			<Setter Property="Background" Value="#fff" />
-			<Setter Property="ShowsPreview" Value="True" />
-			<Setter Property="Height" Value="3" />
-		</Style>
 		<Style x:Key="ButtonBarVerticalSeparator" TargetType="{x:Type Border}" >
-			<Setter Property="Width" Value="0.5" />
+			<Setter Property="Width" Value="1" />
 			<Setter Property="Background" Value="#999" />
 			<Setter Property="Margin" Value="5,5,0,5" />
+		</Style>
+		<Style x:Key="VerticalSplitter" TargetType="{x:Type GridSplitter}" >
+			<Setter Property="Width" Value="5" />
+			<Setter Property="Background" Value="#777" />
+		</Style>
+		<Style TargetType ="{x:Type ComboBox}">
+			<Setter Property="Margin" Value="5"/>
+			<Setter Property="Width" Value="80"/>
+		</Style>
+		<Style TargetType="{x:Type CheckBox}">
+			<Setter Property="Margin" Value="5"/>
+			<Setter Property="Foreground" Value="#fff"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+		<Style x:Key="CheckBoxTreeViewItem" TargetType="{x:Type CheckBox}">
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="BorderBrush" Value="#222"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Foreground" Value="#fff"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="FontSize" Value="10"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+		</Style>
+		<Style x:Key="StackPanelTreeViewItem" TargetType="{x:Type StackPanel}">
+			<Setter Property="VerticalAlignment" Value="Center"/>
 		</Style>
 	</Window.Resources>
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" MinWidth="200"/>
+			<ColumnDefinition Width="5" />
+			<ColumnDefinition Width="*"  MinWidth="200"/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="20" />
 		</Grid.RowDefinitions>
-		<Menu Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="4" Style="{StaticResource MenuTop}">
-			<MenuItem Header="File" Style="{StaticResource MenuItemTop}">
-				<MenuItem Header="Open Project Folder" Name="MenuItem_OpenProjectFolder" Click="MenuItemClick"/>
+		<Menu Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="3" Style="{StaticResource MenuTop}">
+			<MenuItem Header="Project" Style="{StaticResource MenuItemTop}">
+				<MenuItem Header="Open Project..." Name="MenuItem_OpenProjectFolder" Click="MenuItemClick"/>
 				<Separator />
 				<MenuItem Header="Build Configuration">
 					<MenuItem Header="Save..." Name="MenuItem_SaveProjectFolderSetting" Click="MenuItemClick"/>
@@ -116,19 +183,55 @@
 			</MenuItem>
 		</Menu>
 
-		<TreeView Name="treeView" Height="Auto" Grid.Row="2" Grid.Column="0" Style="{StaticResource TreeViewConsole}" />
+		<TreeView Name="treeView" Grid.Row="2" Grid.Column="0" Style="{StaticResource TreeViewModPacks}">
+			<TreeViewItem Header="USAF Fighters">
+				<StackPanel Orientation="Horizontal" Style="{StaticResource StackPanelTreeViewItem}">
+					<Border Style="{StaticResource BorderTreeViewItemButton_Dev_active}">
+						<TextBlock Style="{StaticResource TextBlockTreeViewItemButton_Dev_active}">Dev</TextBlock>
+					</Border>
+					<Border Style="{StaticResource BorderTreeViewItemButton_Release_active}">
+						<TextBlock Style="{StaticResource TextBlockTreeViewItemButton_Release_active}">Release</TextBlock>
+					</Border>
+					
+					<TextBlock Style="{StaticResource textBlockTreeViewItem}">
+						F-22
+					</TextBlock>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" Style="{StaticResource StackPanelTreeViewItem}">
+					<Border Style="{StaticResource BorderTreeViewItemButton_inactive}">
+						<TextBlock Style="{StaticResource TextBlockTreeViewItemButton_inactive}">Dev</TextBlock>
+					</Border>
+					<Border Style="{StaticResource BorderTreeViewItemButton_inactive}">
+						<TextBlock Style="{StaticResource TextBlockTreeViewItemButton_inactive}">Release</TextBlock>
+					</Border>
 
-		<StackPanel Name="ButtonBar" Orientation="Horizontal" Grid.ColumnSpan="1" Style="{StaticResource ButtonBar}" Grid.Row="1" Grid.Column="0">
+					<TextBlock Style="{StaticResource textBlockTreeViewItem}">
+						F-35
+					</TextBlock>
+				</StackPanel>
+
+			</TreeViewItem>
+			
+		</TreeView>
+
+		<StackPanel Name="ButtonBar" Orientation="Horizontal" Style="{StaticResource ButtonBar}" Grid.Row="1" Grid.Column="0">
 			<!--<TextBlock Style="{StaticResource ButtonBarTextBlock}">Build:</TextBlock>-->
 			<Button Name="btnBuildDev">Build _Dev (F1)</Button>
 			<Button Name="btnBuildRelease">Build _Release (F2)</Button>
-			<!--<Border Style="{StaticResource ButtonBarVerticalSeparator}"></Border>-->
+			<Border Style="{StaticResource ButtonBarVerticalSeparator}"></Border>
 		</StackPanel>
 
-		<GridSplitter Width="5" Grid.Column="1" />
+		<GridSplitter Style="{StaticResource VerticalSplitter}" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1"/>
 
-		<TextBox Name="textConsole" Style="{StaticResource textBoxConsole}" Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" />
-
+		<StackPanel Name="ButtonBarConsole" Orientation="Horizontal" Style="{StaticResource ButtonBar}" Grid.Row="1" Grid.Column="3">
+			<!--<TextBlock Style="{StaticResource ButtonBarTextBlock}">Build:</TextBlock>-->
+			<Button Name="btnConsoleClear">Clear</Button>
+			<CheckBox>Auto Scroll</CheckBox>
+		</StackPanel>
 		
+		<TextBox Name="textConsole" Style="{StaticResource textBoxConsole}" Grid.Row="2" Grid.RowSpan="1" Grid.Column="2" />
+
+		<TextBlock Name="txtStatus" Style="{StaticResource textBlockStatus}" Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0" >Ready...</TextBlock>
+
 	</Grid>
 </Window>

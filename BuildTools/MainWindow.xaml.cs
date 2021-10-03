@@ -8,6 +8,19 @@ using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
 
+/*
+ *	Remote: Project root
+ *		.buildtools (xml text file)
+ *			
+ *			
+ *	Local: AppData/usaf-build-tools
+ *		projects.xml
+ *			Last Project
+ *			Project List
+ *				Local Path
+ *	
+ */
+
 namespace BuildTools
 {
 	public enum PboFolderState { inactive, debug, release };
@@ -17,7 +30,7 @@ namespace BuildTools
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private string appDataPath;
+		private readonly string appDataPath;
 
 		public MainWindow()
 		{
@@ -66,7 +79,7 @@ namespace BuildTools
 			var aSerializer = new XmlSerializer(typeof(SaveData));
 			StringBuilder sb = new StringBuilder();
 			StringWriter sw = new StringWriter(sb);
-			aSerializer.Serialize(sw, saveData); // pass an instance of A
+			aSerializer.Serialize(sw, saveData); 
 			string xmlResult = sw.GetStringBuilder().ToString();
 			File.WriteAllText(appDataPath, xmlResult);
 		}
@@ -82,6 +95,30 @@ namespace BuildTools
 
 		}
 	}
+
+	[XmlRoot(ElementName = "SaveData")]
+	public class SaveData
+	{
+		[XmlArray("Modpacks")]
+		public List<ModPack> modPacks;
+		[XmlElement("Version")]
+		public VersionData version;
+
+		public SaveData()
+		{
+			modPacks = new List<ModPack>();
+
+		}
+		public void AddModpack(ModPack modpack)
+		{
+			modPacks.Add(modpack);
+		}
+		public void RemoveModpack(ModPack modpack)
+		{
+			modPacks.Remove(modpack);
+		}
+	}
+
 	public class ModPack
 	{
 		[XmlElement("Path")]
@@ -113,8 +150,11 @@ namespace BuildTools
 		}
 	}
 
+
 	public class PboFolder
 	{
+		[XmlElement("Path")]
+		public string _title;
 		[XmlElement("Path")]
 		public string _path;
 		[XmlElement("State")]
@@ -130,28 +170,7 @@ namespace BuildTools
 		}
 	}
 
-	[XmlRoot(ElementName = "SaveData")]
-	public class SaveData
-	{
-		[XmlArray("Modpacks")]
-		public List<ModPack> modPacks;
-		[XmlElement("Version")]
-		public VersionData version;
-
-		public SaveData()
-		{
-			modPacks = new List<ModPack>();
-			
-		}
-		public void AddModpack(ModPack modpack)
-		{
-			modPacks.Add(modpack);
-		}
-		public void RemoveModpack(ModPack modpack)
-		{
-			modPacks.Remove(modpack);
-		}
-	}
+	
 	public class VersionData
 	{
 		[XmlElement("Major")]
