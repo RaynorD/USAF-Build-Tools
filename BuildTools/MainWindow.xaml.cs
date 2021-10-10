@@ -19,75 +19,85 @@ using System.Xml.Serialization;
  *			Project List
  *				Local Path
  *	
+ *	Supported Mod structures:
+ *		ACE/CBA (Single mod - need to support mod at root level)
+ *			project/addons/pbos
+ *			project/mod.cpp
+ *		USAF (Multiple Mods)
+ *			project/@USAF_Pack1
+ *				/addons/pbos
+ *				/mod.cpp
+ *			project/@USAF_Pack2
+ *				/addons/pbos
+ *				/mod.cpp
+ *	
  */
 
 namespace BuildTools
 {
-	public enum PboFolderState { inactive, debug, release };
-	
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private readonly string appDataPath;
+		private readonly string appDataXmlPath;
 
 		public MainWindow()
 		{
 			InitializeComponent();
 
-			appDataPath = Path.Combine(
+			appDataXmlPath = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
 				System.Reflection.Assembly.GetEntryAssembly().GetName().Name,
 				"data.xml"
 			);
 
-			ReadData();
+			//ReadData();
 
-			
+			Project project = new();
 
-			//Directory.CreateDirectory(dirAppData);
+			_ = Directory.CreateDirectory(appDataXmlPath);
 
-			//ModPack modPack1 = new(@"C:\Dev\USAF\TestModPack1", "USAF Fighters");
-			//ModPack modPack2 = new(@"C:\Dev\USAF\TestModPack2", "USAF Bombers");
-			//PboFolder pboFolder1 = new(@"C:\Dev\USAF\TestModPack1\TestPboFolder1", PboFolderState.debug);
-			//PboFolder pboFolder2 = new(@"C:\Dev\USAF\TestModPack1\TestPboFolder2", PboFolderState.inactive);
-			//PboFolder pboFolder3 = new(@"C:\Dev\USAF\TestModPack2\TestPboFolder1", PboFolderState.debug);
-			//PboFolder pboFolder4 = new(@"C:\Dev\USAF\TestModPack2\TestPboFolder2", PboFolderState.release);
-			//modPack1.AddPboFolder(pboFolder1);
-			//modPack1.AddPboFolder(pboFolder2);
-			//modPack2.AddPboFolder(pboFolder3);
-			//modPack2.AddPboFolder(pboFolder4);
+			ModPack modPack1 = new(@"@USAF_Fighters", "USAF Fighters");
+			ModPack modPack2 = new(@"@USAF_Utility", "USAF Utility");
 
-			//SaveData saveData = new ();
-			//saveData.version = new VersionData(1, 2, 3, 4);
+			PboFolder pboFolder1 = new(@"@USAF_Fighters\addons\USAF_F22", "F-22", true, true);
+			PboFolder pboFolder2 = new(@"@USAF_Fighters\addons\USAF_F35A", "F-35A", true, false);
+			PboFolder pboFolder3 = new(@"@USAF_Utility\addons\USAF_MQ9", "B-1B", false, true);
+			PboFolder pboFolder4 = new(@"@USAF_Utility\addons\USAF_RQ4", "B-2", false, false);
+			modPack1.AddPboFolder(pboFolder1);
+			modPack1.AddPboFolder(pboFolder2);
+			modPack2.AddPboFolder(pboFolder3);
+			modPack2.AddPboFolder(pboFolder4);
 
-			//saveData.AddModpack(modPack1);
-			//saveData.AddModpack(modPack2);
+			project.Version = new VersionData(1, 2, 3, 4);
 
-			//WriteData(saveData);
+			project.AddModpack(modPack1);
+			project.AddModpack(modPack2);
 
-		}
-
-		private void ReadData()
-		{
+			WriteData(project);
 
 		}
 
-		public void WriteData(SaveData saveData)
+		//private void ReadData()
+		//{
+
+		//}
+
+		public void WriteData(Project proj)
 		{
-			var aSerializer = new XmlSerializer(typeof(SaveData));
-			StringBuilder sb = new StringBuilder();
-			StringWriter sw = new StringWriter(sb);
-			aSerializer.Serialize(sw, saveData); 
+			XmlSerializer aSerializer = new(typeof(Project));
+			StringBuilder sb = new();
+			StringWriter sw = new(sb);
+			aSerializer.Serialize(sw, proj);
 			string xmlResult = sw.GetStringBuilder().ToString();
-			File.WriteAllText(appDataPath, xmlResult);
+			File.WriteAllText(Path.Join(proj.Path,".buildtools.xml"), xmlResult);
 		}
 
 		private void MenuItemVersion_Click(object sender, RoutedEventArgs e)
 		{
 			BuildVersionWindow win = new();
-			win.ShowDialog();
+			_ = win.ShowDialog();
 		}
 
 		private void MenuItemClick(object sender, RoutedEventArgs e)
@@ -97,104 +107,129 @@ namespace BuildTools
 	}
 
 	[XmlRoot(ElementName = "SaveData")]
-	public class SaveData
+	public class Project
 	{
-		[XmlArray("Modpacks")]
-		public List<ModPack> modPacks;
-		[XmlElement("Version")]
-		public VersionData version;
+		public string Name;
+		public string Path;
+		public List<ModPack> ModPacks;
+		public VersionData Version;
 
-		public SaveData()
+		public Project()
 		{
-			modPacks = new List<ModPack>();
-
+			Name = "";
+			Path = "";
+			ModPacks = new();
+			Version = new();
 		}
+		public Project(string name, string path)
+		{
+			Name = name;
+			Path = path;
+			ModPacks = new();
+			Version = new();
+		}
+
 		public void AddModpack(ModPack modpack)
 		{
-			modPacks.Add(modpack);
+			ModPacks.Add(modpack);
 		}
 		public void RemoveModpack(ModPack modpack)
 		{
-			modPacks.Remove(modpack);
+			_ = ModPacks.Remove(modpack);
 		}
+	}
+
+	public class LocalSaveData
+	{
+		public string Path;
 	}
 
 	public class ModPack
 	{
-		[XmlElement("Path")]
-		public string _path;
-		[XmlElement("Name")]
-		public string _name;
-		[XmlArray("PboFolderList")]
+		public string Name;
+		public string Path;
 		[XmlArrayItem("PboFolder")]
-		public List<PboFolder> _pboFolders;
+		public List<PboFolder> PboFolders;
 
 		public ModPack() { }
 
 		public ModPack(string path, string name)
 		{
-			_path = Directory.Exists(path) ? path : throw new DirectoryNotFoundException();
+			//Path = Directory.Exists(path) ? path : throw new DirectoryNotFoundException();
 
-			_name = name;
+			Path = path;
+			Name = name;
 
-			_pboFolders = new List<PboFolder>();
+			PboFolders = new List<PboFolder>();
 		}
 
 		public void AddPboFolder(PboFolder folder)
 		{
-			_pboFolders.Add(folder);
+			PboFolders.Add(folder);
 		}
 		public void RemovePboFolder(PboFolder folder)
 		{
-			_pboFolders.Remove(folder);
+			_ = PboFolders.Remove(folder);
 		}
 	}
 
 
 	public class PboFolder
 	{
-		[XmlElement("Path")]
-		public string _title;
-		[XmlElement("Path")]
-		public string _path;
-		[XmlElement("State")]
-		public PboFolderState _state;
+		public string Title;
+		public string Path;
+		public bool Dev;
+		public bool Release;
 
-		public PboFolder() { }
+		public PboFolder() {
+			Path = "";
+			Title = "";
+			Dev = false;
+			Release = false;
+		}
 
-		public PboFolder(string path, PboFolderState state)
+		public PboFolder(string path, string title)
 		{
-			_path = Directory.Exists(path) ? path : throw new DirectoryNotFoundException();
+			Path = Directory.Exists(path) ? path : throw new DirectoryNotFoundException();
+			Title = title;
+			Dev = false;
+			Release = false;
+		}
 
-			_state = state;
+		public PboFolder(string path, string title, bool dev, bool release)
+		{
+			Path = Directory.Exists(path) ? path : throw new DirectoryNotFoundException();
+			Title = title;
+			Dev = dev;
+			Release = release;
 		}
 	}
-
 	
 	public class VersionData
 	{
-		[XmlElement("Major")]
-		public int major;
-		[XmlElement("Minor")]
-		public int minor;
-		[XmlElement("Patch")]
-		public int patch;
-		[XmlElement("Build")]
-		public int build;
+		public int Major;
+		public int Minor;
+		public int Patch;
+		public int Build;
 		
-		public VersionData() { }
+		public VersionData() {
+			Major = 0;
+			Minor = 0;
+			Patch = 0;
+			Build = 0;
+		}
 
 		public VersionData(int majorInput, int minorInput, int patchInput, int buildInput)
 		{
-			major = majorInput;
-			minor = minorInput;
-			patch = patchInput;
-			build = buildInput;
+			Major = majorInput;
+			Minor = minorInput;
+			Patch = patchInput;
+			Build = buildInput;
 		}
 
 		public override string ToString()
 		{
-			return ("" + major + "." + minor + "." + patch + "." + build);
+			return "" + Major + "." + Minor + "." + Patch + "." + Build;
 		}
 	}
 }

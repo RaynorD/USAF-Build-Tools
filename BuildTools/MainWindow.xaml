@@ -184,7 +184,25 @@
 		</Menu>
 
 		<TreeView Name="treeView" Grid.Row="2" Grid.Column="0" Style="{StaticResource TreeViewModPacks}">
+			<TreeView.ItemTemplate>
+				<HierarchicalDataTemplate ItemsSource="{Binding _pboFolders}">
+					<StackPanel Orientation="Horizontal">
+						<Border Style="{StaticResource BorderTreeViewItemButton_Dev_active}">
+							<TextBlock Style="{StaticResource TextBlockTreeViewItemButton_Dev_active}">Dev</TextBlock>
+						</Border>
+						<Border Style="{StaticResource BorderTreeViewItemButton_Release_active}">
+							<TextBlock Style="{StaticResource TextBlockTreeViewItemButton_Release_active}">Release</TextBlock>
+						</Border>
+
+						<TextBlock Style="{StaticResource textBlockTreeViewItem}" Text="{Binding Path=_name}"></TextBlock>
+					</StackPanel>
+				</HierarchicalDataTemplate>
+				
+			</TreeView.ItemTemplate>
 			<TreeViewItem Header="USAF Fighters">
+				<TreeViewItem>
+					
+				</TreeViewItem>
 				<StackPanel Orientation="Horizontal" Style="{StaticResource StackPanelTreeViewItem}">
 					<Border Style="{StaticResource BorderTreeViewItemButton_Dev_active}">
 						<TextBlock Style="{StaticResource TextBlockTreeViewItemButton_Dev_active}">Dev</TextBlock>
