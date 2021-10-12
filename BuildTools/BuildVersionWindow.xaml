@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BuildTools"
         mc:Ignorable="d"
-        Title="Version" Height="188" Width="232" ResizeMode="NoResize" Background="#FF222222" Topmost="True">
+        Title="Version" Height="211" Width="232" ResizeMode="NoResize" Background="#FF222222" Topmost="True" Loaded="Window_Loaded">
 	<Window.Resources>
 		<Style TargetType="{x:Type Grid}">
 			<Setter Property="Background" Value="#222" />
@@ -14,6 +14,7 @@
 			<Setter Property="Margin" Value="3,3,10,3" />
 			<Setter Property="TextAlignment" Value="Right" />
 			<Setter Property="Foreground" Value="#fff" />
+			<Setter Property="VerticalAlignment" Value="Center" />
 		</Style>
 		<Style TargetType="{x:Type TextBox}">
 			<Setter Property="Margin" Value="5" />
@@ -75,20 +76,27 @@
 			<Button Name="Btn_VersionMinor_Decrement" Style="{StaticResource IncrementButton}" Content="&lt;" Click="Btn_VersionMinor_Decrement_Click"/>
 			<Button Name="Btn_VersionMinor_Increment" Style="{StaticResource IncrementButton}" Content="&gt;" Click="Btn_VersionMinor_Increment_Click"/>
 		</StackPanel>
-		
-		<TextBlock Grid.Row="2" Margin="3,3,10,3">Build Version</TextBlock>
+
+		<TextBlock Grid.Row="2" Margin="3,3,10,3">Patch Version</TextBlock>
 		<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" >
+			<TextBox Name="txtBox_version_patch" PreviewTextInput="TxtBox_version_path_PreviewTextInput" IsReadOnly="True">0</TextBox>
+			<Button Name="Btn_VersionPatch_Decrement" Style="{StaticResource IncrementButton}" Content="&lt;" Click="Btn_VersionPatch_Decrement_Click"/>
+			<Button Name="Btn_VersionPatch_Increment" Style="{StaticResource IncrementButton}" Content="&gt;" Click="Btn_VersionPatch_Increment_Click"/>
+		</StackPanel>
+
+		<TextBlock Grid.Row="3" Margin="3,3,10,3">Build Version</TextBlock>
+		<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" >
 			<TextBox Name="txtBox_version_build" PreviewTextInput="TxtBox_version_build_PreviewTextInput" IsReadOnly="True">0</TextBox>
 			<Button Name="Btn_VersionBuild_Decrement" Style="{StaticResource IncrementButton}" Content="&lt;" Click="Btn_VersionBuild_Decrement_Click"/>
 			<Button Name="Btn_VersionBuild_Increment" Style="{StaticResource IncrementButton}" Content="&gt;" Click="Btn_VersionBuild_Increment_Click"/>
 		</StackPanel>
 
-		<StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+		<StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
 			<TextBlock Text="Auto Increment Build Version" Width="Auto"/>
 			<CheckBox Name="checkbox_autoIncrement" IsChecked="True" Height="15"/>
 		</StackPanel>
 		
-		<StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2" VerticalAlignment="Center">
+		<StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2" VerticalAlignment="Center">
 			<Button Name="BtnOk" Style="{StaticResource WindowButton}" Click="BtnOK_Click" IsDefault="True">OK</Button>
 			<Button Name="BtnCancel" Style="{StaticResource WindowButton}" Click="BtnCancel_Click" IsCancel="True">Cancel</Button>
 		</StackPanel>

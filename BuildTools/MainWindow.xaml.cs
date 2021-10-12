@@ -41,6 +41,7 @@ namespace BuildTools
 	public partial class MainWindow : Window
 	{
 		private readonly string appDataXmlPath;
+		private Project project;
 
 		public MainWindow()
 		{
@@ -54,7 +55,7 @@ namespace BuildTools
 
 			//ReadData();
 
-			Project project = new();
+			project = new();
 
 			_ = Directory.CreateDirectory(appDataXmlPath);
 
@@ -65,17 +66,17 @@ namespace BuildTools
 			PboFolder pboFolder2 = new(@"@USAF_Fighters\addons\USAF_F35A", "F-35A", true, false);
 			PboFolder pboFolder3 = new(@"@USAF_Utility\addons\USAF_MQ9", "B-1B", false, true);
 			PboFolder pboFolder4 = new(@"@USAF_Utility\addons\USAF_RQ4", "B-2", false, false);
-			modPack1.AddPboFolder(pboFolder1);
-			modPack1.AddPboFolder(pboFolder2);
-			modPack2.AddPboFolder(pboFolder3);
-			modPack2.AddPboFolder(pboFolder4);
+			modPack1.PboFolders.Add(pboFolder1);
+			modPack1.PboFolders.Add(pboFolder2);
+			modPack2.PboFolders.Add(pboFolder3);
+			modPack2.PboFolders.Add(pboFolder4);
 
 			project.Version = new VersionData(1, 2, 3, 4);
 
-			project.AddModpack(modPack1);
-			project.AddModpack(modPack2);
+			project.ModPacks.Add(modPack1);
+			project.ModPacks.Add(modPack2);
 
-			WriteData(project);
+			WriteSaveData(project);
 
 		}
 
@@ -84,7 +85,20 @@ namespace BuildTools
 
 		//}
 
-		public void WriteData(Project proj)
+		public void LoadProject()
+		{
+			ClearProject();
+		}
+
+		public void ClearProject()
+		{
+			if(project != null)
+			{
+				project = null;
+			}
+		}
+
+		public void WriteSaveData(Project proj)
 		{
 			XmlSerializer aSerializer = new(typeof(Project));
 			StringBuilder sb = new();
@@ -96,8 +110,13 @@ namespace BuildTools
 
 		private void MenuItemVersion_Click(object sender, RoutedEventArgs e)
 		{
-			BuildVersionWindow win = new();
-			_ = win.ShowDialog();
+			BuildVersionWindow win = new(project.Version);
+			if ((bool)win.ShowDialog())
+			{
+
+			}
+			
+
 		}
 
 		private void MenuItemClick(object sender, RoutedEventArgs e)
@@ -128,15 +147,6 @@ namespace BuildTools
 			ModPacks = new();
 			Version = new();
 		}
-
-		public void AddModpack(ModPack modpack)
-		{
-			ModPacks.Add(modpack);
-		}
-		public void RemoveModpack(ModPack modpack)
-		{
-			_ = ModPacks.Remove(modpack);
-		}
 	}
 
 	public class LocalSaveData
@@ -161,15 +171,6 @@ namespace BuildTools
 			Name = name;
 
 			PboFolders = new List<PboFolder>();
-		}
-
-		public void AddPboFolder(PboFolder folder)
-		{
-			PboFolders.Add(folder);
-		}
-		public void RemovePboFolder(PboFolder folder)
-		{
-			_ = PboFolders.Remove(folder);
 		}
 	}
 
@@ -211,12 +212,14 @@ namespace BuildTools
 		public int Minor;
 		public int Patch;
 		public int Build;
+		public bool AutoIncrement;
 		
 		public VersionData() {
 			Major = 0;
 			Minor = 0;
 			Patch = 0;
 			Build = 0;
+			AutoIncrement = false;
 		}
 
 		public VersionData(int majorInput, int minorInput, int patchInput, int buildInput)
@@ -225,6 +228,16 @@ namespace BuildTools
 			Minor = minorInput;
 			Patch = patchInput;
 			Build = buildInput;
+			AutoIncrement = false;
+		}
+
+		public VersionData(int majorInput, int minorInput, int patchInput, int buildInput, bool autoIncrement)
+		{
+			Major = majorInput;
+			Minor = minorInput;
+			Patch = patchInput;
+			Build = buildInput;
+			AutoIncrement = autoIncrement;
 		}
 
 		public override string ToString()

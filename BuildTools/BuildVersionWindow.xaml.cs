@@ -21,19 +21,13 @@ namespace BuildTools
 	/// </summary>
 	public partial class BuildVersionWindow : Window
 	{
-		private int versionMajor, versionMinor, versionBuild;
-		private bool autoIncrement = true;
+		private VersionData Input;
+		public VersionData Output;
 
-		public BuildVersionWindow()
+		public BuildVersionWindow(VersionData input)
 		{
 			InitializeComponent();
-		}
-
-		#region Helper Functions
-		private void ValidateVersionField(object sender, ref TextCompositionEventArgs e)
-		{
-			TextBox txtBox = sender as TextBox;
-			e.Handled = int.TryParse(txtBox.Text, out _);
+			Input = input;
 		}
 		private void EditVersionField(TextBox txtBox, bool inc)
 		{
@@ -49,16 +43,16 @@ namespace BuildTools
 				}
 			}
 		}
-		#endregion
 
 		#region Events
 		private void BtnOK_Click(object sender, RoutedEventArgs e)
 		{
-			int.TryParse(txtBox_version_major.Text, out versionMajor);
-			int.TryParse(txtBox_version_minor.Text, out versionMinor);
-			int.TryParse(txtBox_version_build.Text, out versionBuild);
+			int.TryParse(txtBox_version_major.Text, out Output.Major);
+			int.TryParse(txtBox_version_minor.Text, out Output.Minor);
+			int.TryParse(txtBox_version_patch.Text, out Output.Patch);
+			int.TryParse(txtBox_version_build.Text, out Output.Build);
 
-			autoIncrement = (bool)checkbox_autoIncrement.IsChecked;
+			Output.AutoIncrement = (bool)checkbox_autoIncrement.IsChecked;
 
 			DialogResult = true;
 		}
@@ -102,6 +96,16 @@ namespace BuildTools
 			EditVersionField(txtBox_version_minor, true);
 		}
 
+		private void Btn_VersionPatch_Decrement_Click(object sender, RoutedEventArgs e)
+		{
+			EditVersionField(txtBox_version_patch, false);
+		}
+
+		private void Btn_VersionPatch_Increment_Click(object sender, RoutedEventArgs e)
+		{
+			EditVersionField(txtBox_version_patch, true);
+		}
+
 		private void Btn_VersionBuild_Decrement_Click(object sender, RoutedEventArgs e)
 		{
 			EditVersionField(txtBox_version_build, false);
@@ -111,6 +115,12 @@ namespace BuildTools
 		{
 			EditVersionField(txtBox_version_build, true);
 		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+
+		}
+
 		#endregion
 
 
