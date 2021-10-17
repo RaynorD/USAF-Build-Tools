@@ -160,17 +160,13 @@
 		</Grid.RowDefinitions>
 		<Menu Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="3" Style="{StaticResource MenuTop}">
 			<MenuItem Header="Project" Style="{StaticResource MenuItemTop}">
-				<MenuItem Header="Open Project..." Name="MenuItem_OpenProjectFolder" Click="MenuItemClick"/>
+				<MenuItem Header="Open Project..." Name="MenuItem_OpenProject"/>
+				<MenuItem Header="Initialize Project..." Name="MenuItem_InitProject"/>
 				<Separator />
-				<MenuItem Header="Build Configuration">
-					<MenuItem Header="Save..." Name="MenuItem_SaveProjectFolderSetting" Click="MenuItemClick"/>
-					<MenuItem Header="Open..." Name="MenuItem_OpenProjectFolderSetting" Click="MenuItemClick"/>
-				</MenuItem>
-				<Separator />
-				<MenuItem Header="Exit" Name="MenuItem_Exit" Click="MenuItemClick"/>
+				<MenuItem Header="Exit" Name="MenuItem_Exit" />
 			</MenuItem>
 			<MenuItem Header="Addons" Style="{StaticResource MenuItemTop}">
-				<MenuItem Header="Add Pack..." Name="MenuItem_AddPack" Click="MenuItemClick"/>
+				<MenuItem Header="Add Pack..." Name="MenuItem_AddPack" />
 				<MenuItem Header="Add PBO Folder..." Name="MenuItem_AddPboFolder"/>
 			</MenuItem>
 			<MenuItem Header="Edit" Style="{StaticResource MenuItemTop}">

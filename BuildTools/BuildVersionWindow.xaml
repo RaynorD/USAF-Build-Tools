@@ -65,28 +65,28 @@
 
 		<TextBlock Grid.Row="0" Margin="3,3,10,3">Major Version</TextBlock>
 		<StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" >
-			<TextBox Name="txtBox_version_major"  PreviewTextInput="TxtBox_version_major_PreviewTextInput" IsReadOnly="True">0</TextBox>
+			<TextBox Name="txtBox_version_major" IsReadOnly="True">0</TextBox>
 			<Button Name="Btn_VersionMajor_Decrement" Style="{StaticResource IncrementButton}" Content="&lt;" Click="Btn_VersionMajor_Decrement_Click"/>
 			<Button Name="Btn_VersionMajor_Increment" Style="{StaticResource IncrementButton}" Content="&gt;" Click="Btn_VersionMajor_Increment_Click"/>
 		</StackPanel>
 
 		<TextBlock Grid.Row="1" Margin="3,3,10,3">Minor Version</TextBlock>
 		<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" >
-			<TextBox Name="txtBox_version_minor" PreviewTextInput="TxtBox_version_minor_PreviewTextInput" IsReadOnly="True">0</TextBox>
+			<TextBox Name="txtBox_version_minor" IsReadOnly="True">0</TextBox>
 			<Button Name="Btn_VersionMinor_Decrement" Style="{StaticResource IncrementButton}" Content="&lt;" Click="Btn_VersionMinor_Decrement_Click"/>
 			<Button Name="Btn_VersionMinor_Increment" Style="{StaticResource IncrementButton}" Content="&gt;" Click="Btn_VersionMinor_Increment_Click"/>
 		</StackPanel>
 
 		<TextBlock Grid.Row="2" Margin="3,3,10,3">Patch Version</TextBlock>
 		<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" >
-			<TextBox Name="txtBox_version_patch" PreviewTextInput="TxtBox_version_path_PreviewTextInput" IsReadOnly="True">0</TextBox>
+			<TextBox Name="txtBox_version_patch" IsReadOnly="True">0</TextBox>
 			<Button Name="Btn_VersionPatch_Decrement" Style="{StaticResource IncrementButton}" Content="&lt;" Click="Btn_VersionPatch_Decrement_Click"/>
 			<Button Name="Btn_VersionPatch_Increment" Style="{StaticResource IncrementButton}" Content="&gt;" Click="Btn_VersionPatch_Increment_Click"/>
 		</StackPanel>
 
 		<TextBlock Grid.Row="3" Margin="3,3,10,3">Build Version</TextBlock>
 		<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" >
-			<TextBox Name="txtBox_version_build" PreviewTextInput="TxtBox_version_build_PreviewTextInput" IsReadOnly="True">0</TextBox>
+			<TextBox Name="txtBox_version_build" IsReadOnly="True">0</TextBox>
 			<Button Name="Btn_VersionBuild_Decrement" Style="{StaticResource IncrementButton}" Content="&lt;" Click="Btn_VersionBuild_Decrement_Click"/>
 			<Button Name="Btn_VersionBuild_Increment" Style="{StaticResource IncrementButton}" Content="&gt;" Click="Btn_VersionBuild_Increment_Click"/>
 		</StackPanel>
