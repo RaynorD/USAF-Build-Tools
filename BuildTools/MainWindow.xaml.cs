@@ -10,7 +10,7 @@ using System.Xml;
 using System.Xml.Serialization;
 
 /*
- * TODO: Serialize stuff
+ * TODO: Serialize stuff 
  * 
  *	Remote: Project root
  *		.buildtools (xml text file)
@@ -40,52 +40,23 @@ namespace BuildTools
 {
 	public partial class MainWindow : Window
 	{
-		private readonly string appDataXmlPath;
-		private ProjectManager manager;
-		private Project project;
+		private ProjectManager Manager;
 
 		public MainWindow()
 		{
 			InitializeComponent();
 
-			appDataXmlPath = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				System.Reflection.Assembly.GetEntryAssembly().GetName().Name,
-				"data.xml"
-			);
+			Manager = new();
 
 			//ReadData();
 
-			WriteSaveData(project);
+			Manager.Save();
 
-		}		
-
-		public void ClearProject()
-		{
-			if(project != null)
-			{
-				project = null;
-			}
-		}
-
-		public void WriteSaveData(Project project)
-		{
-			
 		}
 
 		private void MenuItemVersion_Click(object sender, RoutedEventArgs e)
 		{
-			BuildVersionWindow win = new(project.Version);
-
-			bool result = (bool)win.ShowDialog();
-			if (result)
-			{
-				Debug.WriteLine("Change version");
-			}
-			else
-			{
-				Debug.WriteLine("Do not change version");
-			}
+			
 		}
 	}
 }

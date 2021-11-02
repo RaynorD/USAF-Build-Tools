@@ -22,7 +22,7 @@ namespace BuildTools
 	public partial class BuildVersionWindow : Window
 	{
 		private VersionData Input;
-		public VersionData Output;
+		public VersionData OutputVersion;
 
 		public BuildVersionWindow(VersionData input)
 		{
@@ -47,12 +47,14 @@ namespace BuildTools
 		#region Events
 		private void BtnOK_Click(object sender, RoutedEventArgs e)
 		{
-			int.TryParse(txtBox_version_major.Text, out Output.Major);
-			int.TryParse(txtBox_version_minor.Text, out Output.Minor);
-			int.TryParse(txtBox_version_patch.Text, out Output.Patch);
-			int.TryParse(txtBox_version_build.Text, out Output.Build);
+			OutputVersion = new();
+			
+			int.TryParse(txtBox_version_major.Text, out OutputVersion.Major);
+			int.TryParse(txtBox_version_minor.Text, out OutputVersion.Minor);
+			int.TryParse(txtBox_version_patch.Text, out OutputVersion.Patch);
+			int.TryParse(txtBox_version_build.Text, out OutputVersion.Build);
 
-			Output.AutoIncrement = (bool)checkbox_autoIncrement.IsChecked;
+			OutputVersion.AutoIncrement = (bool)checkbox_autoIncrement.IsChecked;
 
 			DialogResult = true;
 		}

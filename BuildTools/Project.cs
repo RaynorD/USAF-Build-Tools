@@ -15,6 +15,7 @@ namespace BuildTools
 		public string ProjectPath;
 		public List<ModPack> ModPacks;
 		public VersionData Version;
+		public bool AutoIncrement;
 
 		public Project()
 		{
@@ -22,6 +23,7 @@ namespace BuildTools
 			ProjectPath = "";
 			ModPacks = new();
 			Version = new();
+			AutoIncrement = false;
 		}
 		public Project(string name, string path)
 		{
@@ -29,6 +31,7 @@ namespace BuildTools
 			ProjectPath = path;
 			ModPacks = new();
 			Version = new();
+			AutoIncrement = false;
 		}
 		public void AddModpack(ModPack modPack)
 		{
@@ -38,7 +41,7 @@ namespace BuildTools
 
 		public void RemoveModPack(ModPack modPack)
 		{
-			ModPacks.Remove(modPack);
+			_ = ModPacks.Remove(modPack);
 		}
 
 		public void Save(string path)
@@ -51,7 +54,7 @@ namespace BuildTools
 			File.WriteAllText(Path.Join(ProjectPath, ".buildtools.xml"), xml);
 		}
 
-		public static Project TestProject()
+		public static Project GetTestProject()
 		{
 			Project project = new("USAF", @"C:\Dev\USAFBuildTest");
 
