@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace BuildTools
 {
 	public class PboFolder
 	{
-		public string Title;
-		public string RelativePath;
-		public ModPack Parent;
-		public bool Dev;
-		public bool Release;
+		public string Title { get; set; }
+		public string RelativePath { get; set; }
+		public ModPack Parent { get; set; }
+		public bool Dev { get; set; }
+		public bool Release { get; set; }
 		public PboFolder()
 		{
 			RelativePath = "";

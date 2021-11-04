@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BuildTools
 {
 	public class ProjectManager
 	{
-		public string LastProjectPath;
-		public List<string> RecentProjectPaths;
-		public Project CurrentProject;
-		string AppDataXmlPath;
+		public string LastProjectPath { get; set; }
+		public List<string> RecentProjectPaths { get; set; }
+		public Project CurrentProject { get; set; }
+		public string AppDataXmlPath { get; set; }
 
 		public ProjectManager()
 		{
@@ -22,8 +19,12 @@ namespace BuildTools
 				System.Reflection.Assembly.GetEntryAssembly().GetName().Name,
 				"data.xml"
 			);
+
+			CurrentProject = Project.GetTestProject();
+
+			SaveProject();
 		}
-		public void Save()
+		public void SaveProject()
 		{
 			CurrentProject.Save(AppDataXmlPath);
 		}
@@ -37,7 +38,7 @@ namespace BuildTools
 			{
 				Debug.WriteLine("Change version");
 				CurrentProject.Version = win.OutputVersion;
-				Project.AutoIncrement = win.AutoIncrement;
+				CurrentProject.AutoIncrement = win.AutoIncrement;
 			}
 			else
 			{

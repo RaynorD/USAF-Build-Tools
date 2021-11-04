@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Text.RegularExpressions;
-using System.Windows.Controls.Primitives;
 
 namespace BuildTools
 {
@@ -21,8 +9,9 @@ namespace BuildTools
 	/// </summary>
 	public partial class BuildVersionWindow : Window
 	{
-		private VersionData Input;
-		public VersionData OutputVersion;
+		private VersionData Input { get; set; }
+		public VersionData OutputVersion { get; set; }
+		public bool AutoIncrement { get; set; }
 
 		public BuildVersionWindow(VersionData input)
 		{

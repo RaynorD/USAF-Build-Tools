@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace BuildTools
 {
 	public class ModPack
 	{
-		public string Name;
-		public string RelativePath;
-		public Project Parent;
+		public string Name { get; set; }
+		public string RelativePath { get; set; }
+		public Project Parent { get; set; }
 		[XmlArrayItem("PboFolder")]
-		public List<PboFolder> PboFolders;
+		public List<PboFolder> PboFolders { get; set; }
 
 		public ModPack() { }
 

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace BuildTools
@@ -11,11 +8,11 @@ namespace BuildTools
 	[XmlRoot(ElementName = "SaveData")]
 	public class Project
 	{
-		public string Name;
-		public string ProjectPath;
-		public List<ModPack> ModPacks;
-		public VersionData Version;
-		public bool AutoIncrement;
+		public string Name { get; set; }
+		public string ProjectPath { get; set; }
+		public List<ModPack> ModPacks { get; set; }
+		public VersionData Version { get; set; }
+		public bool AutoIncrement { get; set; }
 
 		public Project()
 		{
@@ -65,13 +62,13 @@ namespace BuildTools
 			PboFolder pboFolder2 = new(@"@USAF_Fighters\addons\USAF_F35A", "F-35A", true, false);
 			PboFolder pboFolder3 = new(@"@USAF_Utility\addons\USAF_MQ9", "B-1B", false, true);
 			PboFolder pboFolder4 = new(@"@USAF_Utility\addons\USAF_RQ4", "B-2", false, false);
-			modPack1.PboFolders.Add(pboFolder1);
-			modPack1.PboFolders.Add(pboFolder2);
-			modPack2.PboFolders.Add(pboFolder3);
-			modPack2.PboFolders.Add(pboFolder4);
+			modPack1.AddPboFolder(pboFolder1);
+			modPack1.AddPboFolder(pboFolder2);
+			modPack2.AddPboFolder(pboFolder3);
+			modPack2.AddPboFolder(pboFolder4);
 
-			project.ModPacks.Add(modPack1);
-			project.ModPacks.Add(modPack2);
+			project.AddModpack(modPack1);
+			project.AddModpack(modPack2);
 
 			project.Version = new VersionData(1, 2, 3, 4);
 

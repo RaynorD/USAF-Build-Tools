@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Windows;
-using System.Xml;
-using System.Xml.Serialization;
+﻿using System.Windows;
 
 /*
  * TODO: Serialize stuff 
@@ -40,7 +31,7 @@ namespace BuildTools
 {
 	public partial class MainWindow : Window
 	{
-		private ProjectManager Manager;
+		private ProjectManager Manager { get; set; }
 
 		public MainWindow()
 		{
@@ -50,13 +41,13 @@ namespace BuildTools
 
 			//ReadData();
 
-			Manager.Save();
+			Manager.SaveProject();
 
 		}
 
 		private void MenuItemVersion_Click(object sender, RoutedEventArgs e)
 		{
-			
+			Manager.ChangeVersion();
 		}
 	}
 }

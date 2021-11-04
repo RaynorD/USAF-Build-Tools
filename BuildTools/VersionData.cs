@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace BuildTools
 {
 	public class VersionData
 	{
-		public int Major;
-		public int Minor;
-		public int Patch;
-		public int Build;
-		public bool AutoIncrement;
+		public int Major { get; set; }
+		public int Minor { get; set; }
+		public int Patch { get; set; }
+		public int Build { get; set; }
+		public bool AutoIncrement { get; set; }
 
 		public VersionData()
 		{
@@ -20,7 +15,7 @@ namespace BuildTools
 			Minor = 0;
 			Patch = 0;
 			Build = 0;
-			AutoIncrement = false;
+			AutoIncrement = true;
 		}
 
 		public VersionData(int majorInput, int minorInput, int patchInput, int buildInput)
@@ -29,7 +24,7 @@ namespace BuildTools
 			Minor = minorInput;
 			Patch = patchInput;
 			Build = buildInput;
-			AutoIncrement = false;
+			AutoIncrement = true;
 		}
 
 		public VersionData(int majorInput, int minorInput, int patchInput, int buildInput, bool autoIncrement)
@@ -44,6 +39,14 @@ namespace BuildTools
 		public override string ToString()
 		{
 			return "" + Major + "." + Minor + "." + Patch + "." + Build;
+		}
+
+		public void IncrementBuildNumber()
+		{
+			if (AutoIncrement)
+			{
+				++Build;
+			}
 		}
 	}
 }
